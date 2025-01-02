@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="website icon" type="png" href="/static/images/saw.png">
+    <title>Order History</title>
+</head>
+<body>
+    <h1>Order History</h1>
+    {% if orders %}
+        <ul>
+        {% for order in orders %}
+            <li>
+                <strong>Order ID:</strong> {{ order.order_id }}<br>
+                <strong>Total:</strong> {{ order.total }}<br>
+                <strong>Customer name:</strong> {{ order.customer_name }}<br>
+                <strong>Customer number:</strong> {{ order.customer_number }}<br>
+                <strong>Customer address:</strong> {{ order.customer_address }}<br>
+                <strong>Customer pincode:</strong> {{ order.customer_pincode }}<br>
+                <ul>
+                    {% for item in order.names %}
+                        <li>{{ item.name }} x{{ item.quantity }} ({{ item.price }} each)</li>
+                    {% endfor %}
+                </ul>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No orders found.</p>
+    {% endif %}
+</body>
+</html>

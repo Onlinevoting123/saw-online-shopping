@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="website icon" type="png" href="/static/images/saw.png">
+    <link rel="stylesheet" href="/static/css/styles.css"
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-form">
+            <div>
+                <img src="{{ url_for('static', filename='images/saw.png') }}" alt="Logo" height="80px">
+              </div>
+            <form method="post">
+                <div class="input-group">
+                    <label for="customer_name">Name</label>
+                    <input type="text" id="customer_name" name="customer_name" placeholder="Enter your name" required>
+                </div>
+                <div class="input-group">
+                    <label for="customer_number">Mobile number</label>
+                    <input type="text" id="customer_number" name="customer_number" placeholder="Enter your number" required>
+                </div>
+                <button type="submit">Log In</button>
+            </form>
+        </div>
+    </div>
+    <div>
+    <footer>
+        <p>&copy; 2025 Sri Asiramma Wholesale. All Rights Reserved.</p>
+    </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Order Confirmation</title>
+    <link rel="website icon" type="png" href="/static/images/saw.png">
+    <link rel="stylesheet" href="/static/css/nav.css">
+    <style>
+      /* General Styles */
+      body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        color: #333;
+        text-align: center;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 20px;
+        background: rgba(2, 2, 31, 0.8);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .navbar img {
+        height: 80px;
+      }
+
+      /* Confirmation Section */
+      .confirmation {
+        margin: 50px auto;
+        padding: 20px;
+        max-width: 600px;
+        background: white;
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      .confirmation h1 {
+        font-size: 2rem;
+        color: #4CAF50;
+      }
+
+      .confirmation p {
+        font-size: 1.2rem;
+        margin: 20px 0;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+        color: #fff;
+        background: linear-gradient(90deg, #6a5acd, #4682b4);
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.3s ease;
+        display: inline-block;
+        margin: 10px;
+      }
+
+      .btn:hover {
+        background: linear-gradient(90deg, #4682b4, #6a5acd);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div>
+        <img src="{{ url_for('static', filename='images/saw.png') }}" alt="Logo">
+      </div>
+    </nav>
+    <div class="confirmation">
+      <h1>Thank You for Your Purchase!</h1>
+      <p>Your order has been confirmed and will be processed shortly.</p>
+      <p>We appreciate your business!</p>
+      <a href="/" class="btn">Continue Shopping</a>
+    </div>
+    <footer>
+      <p>&copy; 2025 Sri Asiramma Wholesale. All Rights Reserved.</p>
+  </footer>
+  </body>
+</html>
