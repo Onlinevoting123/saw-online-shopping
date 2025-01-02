@@ -1,0 +1,185 @@
+/* General styles */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom, #ffffff, #ffffff);
+    color: #6b6868;
+}
+
+.carousel {
+    position: relative;
+    width: 100%;
+    max-width: 1350px;
+    overflow: hidden;
+}
+
+.carousel-images {
+    position: relative;
+    display: flex;
+}
+
+.carousel-item {
+    display: none;
+    width: 100%;
+}
+
+.carousel-item img {
+    width: 100%;
+    display: block;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+#slide1:checked ~ .carousel-images #img1,
+#slide2:checked ~ .carousel-images #img2,
+#slide3:checked ~ .carousel-images #img3 {
+    display: block;
+}
+
+/* Left and Right buttons */
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 1000;
+    font-size: 20px;
+}
+
+.arrow.left {
+    left: 10px;
+}
+
+.arrow.right {
+    right: 10px;
+}
+
+.go {
+    color: #f8faff;
+}
+/* Navbar styles */
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Ensures vertical alignment */
+    background: rgba(2, 2, 31, 0.8);
+    padding: 10px 20px; /* Adjust spacing around the navbar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.navbar .navbar-brand {
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-align: center;
+    transition: color 0.3s;
+}
+
+.navbar .navbar-brand:hover {
+    color: #ffd700;
+}
+
+.navbar .nav-link {
+    color: #fff;
+    margin-right: 15px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.navbar .nav-link:hover {
+    color: #ffd700;
+}
+
+/* Banner image */
+img[src^="https://tbn-prod-assets"] {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin: 20px 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Parent container for cards */
+div.parent {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 30px;
+}
+/* Card styles */
+.card {
+    background: linear-gradient(135deg, #ffffff, #f9f9f9);
+    box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+    text-align: center;
+    width: 250px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    border-bottom: 2px solid #ddd;
+    width: 100%;
+    height: auto;
+    transition: transform 0.4s;
+}
+
+.card:hover img {
+    transform: scale(1.1);
+}
+
+.card-body {
+    padding: 5px;
+    background-color: #f8faff;
+    border-radius: 0 0 15px 15px;
+}
+
+.card-body h5 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #333;
+    font-weight: bold;
+}
+
+.card-body p {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.card-body input[type="submit"],
+.card-body .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background: linear-gradient(90deg, #6a5acd, #4682b4);
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.card-body input[type="submit"]:hover,
+.card-body .btn:hover {
+    background: linear-gradient(90deg, #4682b4, #6a5acd);
+}
