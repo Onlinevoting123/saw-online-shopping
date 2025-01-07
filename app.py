@@ -113,44 +113,34 @@ def add_to_cart(product_id):
 
 @app.route('/order', methods=['POST', 'GET'])
 def order():
-    try:
-        if 'cart' in session:
-            order_history = session.get('order_history', [])
-            total_price = sum(item['price'] * item['quantity'] for item in session['cart'])
-            order_summary = ', '.join([f"{item['quantity']}x {item['name']}" for item in session['cart']])
-            
-            order_history.append({
-                'order_id': len(order_history) + 1,
-                'names': session['cart'],
-                'total': total_price,
-                'customer_name': session.get('customer_name'),
-                'customer_number': session.get('customer_number'),
-                'customer_address': session.get('customer_address'),
-                'customer_pincode': session.get('customer_pincode'),
-            })
-            
-            user_details = User(
-                name1=session.get('customer_name'),
-                number1=session.get('customer_number'),
-                address1=session.get('customer_address'),
-                pincode1=session.get('customer_pincode'),
-                names1=order_summary,
-                total1=total_price
-            )
-            
-            db.session.add(user_details)
-            db.session.commit()
-            session['order_history'] = order_history
-            session.pop('cart', None)
-            session.modified = True
-            flash('Your order has been placed successfully!', 'success')
-            
-        return render_template('order.html')
-    
-    except Exception as e:
-        flash(f"An error occurred: {str(e)}", 'error')
-        return redirect(url_for('view_cart'))
-
+    if 'cart' in session:
+        order_history = session.get('order_history', [])
+        total_price = sum(item['price'] * item['quantity'] for item in session['cart'])
+        order_summary = ', '.join([f"{item['quantity']}x {item['name']}" for item in session['cart']])
+        order_history.append({
+            'order_id': len(order_history) + 1,
+            'names': session['cart'],
+            'total': total_price,
+            'customer_name': session['customer_name'],
+            'customer_number': session['customer_number'],
+            'customer_address': session['customer_address'],
+            'customer_pincode': session['customer_pincode'],
+        })
+        user_details = User(
+            name1=session['customer_name'],
+            number1=session['customer_number'],
+            address1=session['customer_address'],
+            pincode1=session['customer_pincode'],
+            names1=order_summary,
+            total1=total_price
+        )
+        db.session.add(user_details)
+        db.session.commit()
+        session['order_history'] = order_history
+        session.pop('cart', None)
+        session.modified = True
+        flash('Your order has been placed successfully!', 'success')
+    return render_template('order.html')
 
 @app.route('/cart/history', methods=['GET'])
 def order_history():
