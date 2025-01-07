@@ -12,15 +12,15 @@ app.secret_key = os.urandom(24)
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name1 = db.Column(db.String(100), nullable=False)
-    number1 = db.Column(db.Integer, nullable=False)
+    number1 = db.Column(db.String(15), nullable=False)
     address1 = db.Column(db.String(100), nullable=False)
-    pincode1 = db.Column(db.Integer, nullable=False)
-    names1 = db.Column(db.String(100), nullable=False)
+    pincode1 = db.Column(db.String(10), nullable=False)
+    names1 = db.Column(db.Text, nullable=False)
     total1 = db.Column(db.Integer, nullable=False)
 
 @app.route('/users', methods=['GET'])
 def users_page():
-    users = User.query.all() 
+    users = User.query.all()
     return render_template('users.html', users=users)
 
 products = [
@@ -44,38 +44,39 @@ products = [
     {'id': 18, 'name': 'Red box', 'price': 99, 'image': '/static/images/redb.jpg'},
 ]
 
-
 @app.route('/')
 def home():
-    if 'customer_name' not in session or 'customer_number' not in session:
+    if not session.get('customer_name') or not session.get('customer_number'):
         return redirect(url_for('login'))
     return render_template('index.html', products=products)
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session['customer_name'] = request.form['customer_name']
-        session['customer_number'] = request.form['customer_number']
+        session['customer_name'] = request.form.get('customer_name', '').strip()
+        session['customer_number'] = request.form.get('customer_number', '').strip()
+        if not session['customer_name'] or not session['customer_number']:
+            flash('Please enter valid customer details!', 'error')
+            return redirect(url_for('login'))
         return redirect(url_for('home'))
     return render_template('login.html')
-
 
 @app.route('/address', methods=['GET', 'POST'])
 def address():
     if request.method == 'POST':
-        session['customer_address'] = request.form['customer_address']
-        session['customer_pincode'] = request.form['customer_pincode']
+        session['customer_address'] = request.form.get('customer_address', '').strip()
+        session['customer_pincode'] = request.form.get('customer_pincode', '').strip()
+        if not session['customer_address'] or not session['customer_pincode']:
+            flash('Please provide complete address details!', 'error')
+            return redirect(url_for('address'))
         return redirect(url_for('order'))
     return render_template('address.html')
-
 
 @app.route('/logout')
 def logout():
     session.clear()
     flash('You have been logged out successfully!', 'success')
     return redirect(url_for('login'))
-
 
 @app.route('/remove_from_cart/<int:product_id>', methods=['POST'])
 def remove_from_cart(product_id):
@@ -86,17 +87,15 @@ def remove_from_cart(product_id):
             if item['quantity'] <= 0:
                 cart.remove(item)
             break
-    session['cart'] = cart 
+    session['cart'] = cart
     session.modified = True
     return redirect(url_for('view_cart'))
-
 
 @app.route('/cart', methods=['GET'])
 def view_cart():
     cart = session.get('cart', [])
     total = sum(item['price'] * item['quantity'] for item in cart)
     return render_template('try.html', cart=cart, total=total)
-
 
 @app.route('/add_to_cart/<int:product_id>', methods=['POST'])
 def add_to_cart(product_id):
@@ -112,25 +111,12 @@ def add_to_cart(product_id):
         session.modified = True
     return redirect(url_for('view_cart'))
 
-
 @app.route('/order', methods=['POST', 'GET'])
 def order():
     if 'cart' in session:
         order_history = session.get('order_history', [])
         total_price = sum(item['price'] * item['quantity'] for item in session['cart'])
-        p=[]
-        z=[]
-        a=""
-        for i in session['cart']:
-            p.append(str(i['id']))
-            p.append(i['name'])
-            p.append(str(i['price']))
-            p.append(str(i['quantity']))
-            a=" ".join(p)
-            z.append(a)
-            p=[]
-            a=""
-        a="+".join(z)
+        order_summary = ', '.join([f"{item['quantity']}x {item['name']}" for item in session['cart']])
         order_history.append({
             'order_id': len(order_history) + 1,
             'names': session['cart'],
@@ -145,24 +131,21 @@ def order():
             number1=session['customer_number'],
             address1=session['customer_address'],
             pincode1=session['customer_pincode'],
-            names1=a,
+            names1=order_summary,
             total1=total_price
         )
         db.session.add(user_details)
         db.session.commit()
         session['order_history'] = order_history
-        session.pop('cart', None)  
+        session.pop('cart', None)
         session.modified = True
         flash('Your order has been placed successfully!', 'success')
-
     return render_template('order.html')
-
 
 @app.route('/cart/history', methods=['GET'])
 def order_history():
     orders = session.get('order_history', [])
     return render_template('history.html', orders=orders)
-
 
 if __name__ == '__main__':
     with app.app_context():
